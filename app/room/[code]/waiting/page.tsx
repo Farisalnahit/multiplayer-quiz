@@ -5,8 +5,9 @@ import { useRoom } from '../../../../hooks/useRoom';
 
 export default function WaitingRoom(){
   const params = useParams();
-  const roomCode = params?.code ?? null;
-  const { players, teams } = useRoom(roomCode);
+    const rawCode = params?.code;
+    const roomCode = Array.isArray(rawCode) ? rawCode[0] : (rawCode ?? null);
+    const { players, teams } = useRoom(roomCode);
 
   return (
     <main className="min-h-screen p-6">

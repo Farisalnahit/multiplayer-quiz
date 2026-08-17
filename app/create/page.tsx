@@ -12,7 +12,7 @@ export default function CreateRoom(){
     if(!name) return alert('ادخل اسمك');
     setLoading(true);
     try{
-      const res = await createRoom(name, null, {}, 10);
+      const res = await createRoom(name, undefined, {}, 10);
       // store player id and owner_key locally
       const owner_key = res.owner_key;
       const player_id = res.owner_player_id;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
 
 export function useRoom(roomCode: string | null){
   const [players, setPlayers] = useState<any[]>([]);
@@ -9,6 +8,10 @@ export function useRoom(roomCode: string | null){
     if(!roomCode) return;
     let mounted = true;
     async function load(){
+      // dynamically import supabase client to avoid server-side instantiation during build
+      const { getSupabaseClient } = await import('../lib/supabaseClient');
+      const supabase = getSupabaseClient();
+
       // fetch room id by code
       const { data: rooms } = await supabase.from('rooms').select('id, code').eq('code', roomCode).limit(1);
       if(!rooms || rooms.length===0) return;
